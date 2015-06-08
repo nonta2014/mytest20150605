@@ -1,0 +1,30 @@
+/*
+#overview
+Gulp入門サンプル
+
+サンプルファイルです
+*/
+/*
+#styleguide
+サンプル見出し1
+
+サンプルの見出しスタイル
+hoverすると青くなって10px動く
+```
+<h1>見出し1</h1>
+```
+*/
+
+
+h1{
+	color:#600;
+	transition:200ms ease-out transform;
+	&:hover{
+		color:blue;
+		transform:translate(150px,30px );
+	}
+}
+
+h2{
+	color:#630;
+}
