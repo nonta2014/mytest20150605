@@ -1,4 +1,95 @@
-#test{
-	color : #00f ;
+
+.colorred {
+	color:red
+}
+.border1pxgray{
+	/*
+	border:1px solid gray;
+	padding:1em;
+	border-radius:5px
+	*/
+}
+
+.list-group-item {
+	font-size: 1.5em;
+}
+.example-leave {
+	opacity: 1;
+	transition: opacity .3s ease-in;
+}
+.example-leave.example-leave-active {
+	opacity: 0.01;
+}
+
+form {
+	position: relative;
+}
+input[type="submit"] {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 100px;
+}
+
+body {
+	padding: 30px;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background: -moz-linear-gradient(left top,
+		rgba(128,255,128,0.3),
+		rgba(255,255,255,0) 30%,
+		rgba(255,255,255,0)
+		);
+	background: -webkit-gradient(linear, left top, right bottom,
+		from(rgba(128,255,128,0.3)),
+		color-stop(0.3,rgba(255,255,255,0)),
+		to(rgba(255,255,255,0))
+		);
+}
+h1{
+	font : 24px "Century Gothic" ;
+	font-weight : lighter ;
+}
+h2{
+	font-size : 16px ;
+	background : #eee ; border-radius : 1em ; padding : 1em ;
+	font-weight : bold ;
+}
+h3{
+	font-size : 16px ;
+	font-weight : bold ;
+	border-bottom : #eee solid 1px ;
+}
+footer{
+	margin-top : 1em ;
+	border-top : 1px solid gray ;
+	text-align : right ;
+	padding : 5px ;
+}
+
+.maptable{
+	border : 1px solid gray ;
+	border-collapse : collapse ;
+	margin-left : auto ; margin-right : auto ;
+}
+#viewroot{
+	border : none ;
+	width : 300px ;
+	height :300px ;
+}
+.maptable td{
+	padding : 0 ; margin : 0 ;
 	text-align : center ;
+	width : 50% ;
+	height : 50% ;
+}
+ul.noticeList li{
+	color : red ;
+}
+
+
+/*
+css loader
+*/
+.loader-inner div{
+	background: gray;
 }

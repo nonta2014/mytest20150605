@@ -88,7 +88,7 @@ gulp.task('js', function(){
 		.pipe(plumber())
 		.pipe(source('app.min.js'))
 		.pipe(buffer())
-		.pipe(uglify())
+		// .pipe(uglify())//開発中は分かりにくいので。
 		.pipe(gulp.dest('./dist'))
 		.pipe(browser.reload({stream:true}))
 	;
