@@ -57,7 +57,7 @@
 - npm init/bower initする必要はありませんが、package.json/bower.jsonを編集してください。
 	- パッケージ名やauthor情報の修正を行ってください。
 
-
 </div>
+
 
 `EOF`

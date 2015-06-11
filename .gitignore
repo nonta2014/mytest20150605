@@ -7,3 +7,6 @@ _*
 .DS_Store
 
 secrets/
+
+#書きかけを示す「xxx_stub.md」は無視
+*_stub.*
