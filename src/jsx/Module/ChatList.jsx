@@ -6,6 +6,7 @@ var Global = require('../Common/Global.jsx');
 var InputBase = require('../Form/InputBase.jsx');
 var TextInput = require('../Form/TextInput.jsx');
 // var FormText = require('../Form/FormText.jsx');
+var Button = require('../Form/Button.jsx');
 var Submit = require('../Form/Submit.jsx');
 
 //モジュール系
@@ -69,6 +70,15 @@ var ChatList = React.createClass({
 		);
 	},
 
+	handleReload(e){
+		// console.log("テスト");
+		var _this=this;
+		_this.setState({'messagesIsLoaded':false});
+		setTimeout(function(){
+			_this.requestList(_this);
+		},1000);
+	},
+
 	render() {
 		var newPost=(<div>
 			<form className="form-horizontal"
@@ -80,8 +90,12 @@ var ChatList = React.createClass({
 			value="12345"
 			viewName="メッセージ"
 			/>
+			<Button
+				onClick={this.handleReload}
+				value="リロード"
+			/>
 			<Submit
-			value="新規登録"
+			value="投稿"
 			/>
 			</form>
 		</div>);
@@ -96,7 +110,7 @@ var ChatList = React.createClass({
 				{newPost}
 			</div>);
 		}else if(!this.state.chatNowLoading){
-			chat=(<div><h2>chat</h2><p>(本文読み込み中...)</p></div>);
+			chat=(<div><h2>chat</h2><Loader /><p>(本文読み込み中...)</p></div>);
 		}
 
 		return (<div className="border1pxgray">{chat}</div>);

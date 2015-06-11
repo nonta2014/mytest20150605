@@ -2,7 +2,7 @@
 
 var Global={
 	SERVER_ADDR:"http://localhost:8080",
-	DEFAULT_TEST_PLAYER_UUID:"cf086035-c4dd-b22a-88ae-e2b4514d3de7",
+	DEFAULT_TEST_PLAYER_UUID:"dbeba7b9-3f84-efe3-8d7d-8ef8f327f49d",//テスト用。登録済みUUIDを初期表示に含めてしまう。本番ではカットしたい。
 	API_ROOT:"http://localhost:8080/_ah/api",
 	g(id){
 		return document.getElementById(id);

@@ -5,3 +5,5 @@ temp/
 __newText.md
 _*
 .DS_Store
+
+secrets/
