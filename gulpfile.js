@@ -1,5 +1,7 @@
 'use strict';
 
+var fs=require("fs");
+
 var gulp=require("gulp");
 var less=require("gulp-less");
 var sass=require("gulp-sass");
@@ -29,6 +31,10 @@ var source = require("vinyl-source-stream");
 var reactify = require('reactify');
 // var react = require('gulp-react');
 
+// var s3 = require('gulp-s3');
+var awspublish = require('gulp-awspublish');
+
+var replace = require('gulp-replace');
 
 
 //defaultタスクは、単に`gulp`と叩いたときに実行される処理となります。
@@ -43,28 +49,57 @@ gulp.task("default",['js','html','css','server'],function(){
 gulp.task("server",function(){
 	browser({
 		server:{
-			baseDir:"./dist/",directory:false
+			baseDir:"./dist/debug",directory:false
 		}
 	});
 });
 
 //順序保証できてないっぽい？bindってなんだ？streamを返したいんだけど……。
 // 参考 : <http://qiita.com/shinnn/items/bd7ad79526eff37cebd0>
-// gulp.task('clean',del.bind(null,['dist/**/*','temp/**/*']));
+// gulp.task('clean',del.bind(null,['dist/debug/**/*','temp/**/*']));
 
 //上の参考でdeprecatedとなってるやつを試した → AssertionError: rimraf: missing path
 // gulp.task('clean',function(cb){
-// 	return gulp.src(['dist','temp'],{read:false})
+// 	return gulp.src(['dist/debug','temp'],{read:false})
 // 		.pipe(rimraf());
 // });
 
+
+//S3デプロイ
+//※テストURLを本番に向けなおしたいな。。
+gulp.task('deploy',function(){
+	var IAM_cli_user = JSON.parse(fs.readFileSync('./secrets/aws/IAM-cli-user.json'));
+	var publisher = awspublish.create({
+		params: {
+			Bucket: IAM_cli_user.bucket
+		},
+		"accessKeyId": IAM_cli_user.key,
+		"secretAccessKey": IAM_cli_user.secret
+	});
+	var headers = {
+		//'Cache-Control': 'max-age=315360000, no-transform, public'
+	};
+	gulp.src('./dist/release/*')
+		.pipe(rename(function (path) {
+			path.dirname += '/game-client-mockup';
+			// path.basename += '-s3';
+		}))
+		.pipe(awspublish.gzip({ ext: '.gz' }))
+		.pipe(publisher.publish(headers))
+		.pipe(publisher.sync())
+		.pipe(awspublish.reporter());
+});
 
 
 gulp.task('html',function(){
 	return gulp.src(["src/html/**/*.html"])
 		.pipe(plumber())
 		.pipe(minifyHTML({conditionals: true}))
-		.pipe(gulp.dest("./dist"))
+		.pipe(gulp.dest("./dist/debug"))
+		//本番は置き換え（ここでやるの正しいのかな……。。）
+		.pipe(replace(/styles.min.css/g,'styles.min.css.gz'))
+		.pipe(replace(/app.min.js/g,'app.min.js.gz'))
+		.pipe(gulp.dest("./dist/release"))
 		.pipe(browser.reload({stream:true}))
 	;
 });
@@ -88,8 +123,13 @@ gulp.task('js', function(){
 		.pipe(plumber())
 		.pipe(source('app.min.js'))
 		.pipe(buffer())
-		// .pipe(uglify())//開発中は分かりにくいので。
-		.pipe(gulp.dest('./dist'))
+		.pipe(gulp.dest('./dist/debug'))
+		//本番は置き換え（ここでやるの正しいのかな……。。）
+		.pipe(replace(/http:\/\/localhost:8080/g,'https://mytest-20150503-golang.appspot.com/'))
+		.pipe(replace(/DEFAULT_TEST_PLAYER_UUID:.*\n/g,'DEFAULT_TEST_PLAYER_UUID:"",'))
+
+		.pipe(uglify())
+		.pipe(gulp.dest('./dist/release'))
 		.pipe(browser.reload({stream:true}))
 	;
 });
@@ -115,7 +155,8 @@ gulp.task('css',function(){
 	).pipe(concat('styles.min.css'))
 		.pipe(plumber())
 		.pipe(csso())
-		.pipe(gulp.dest("./dist"))
+		.pipe(gulp.dest("./dist/debug"))
+		.pipe(gulp.dest("./dist/release"))
 		.pipe(browser.reload({stream:true}))
 	;
 });
