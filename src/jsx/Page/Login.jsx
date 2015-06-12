@@ -36,7 +36,7 @@ var Login = React.createClass({
 			this.refs.name.setState({validationErrors:validationErrors});
 		}else{
 			this.refs.name.setState({validationErrors:[]});
-			console.log(this.refs.name.state.textValue,this.refs.newUserUuid.props.text);
+			// console.log(this.refs.name.state.textValue,this.refs.newUserUuid.props.text);
 			//ここで新規登録＋ログイン実行！
 			var _this=this ;
 			gapi.client.account.signup({
@@ -61,34 +61,36 @@ var Login = React.createClass({
 	handleLogin(e){
 		e.preventDefault();
 		var validationErrors=[];
-		if(this.refs.uuid.state===undefined || this.refs.uuid.state.textValue===undefined || this.refs.uuid.state.textValue.length===0){
+		if(this.refs.loginUuid.state===undefined || this.refs.loginUuid.state.textValue===undefined || this.refs.loginUuid.state.textValue.length===0){
 			validationErrors.push("UUIDが入力されていません。");
 			console.log("validation error pushed.");
-		}else if(this.refs.uuid.state.textValue.length!=36 ){
+		}else if(this.refs.loginUuid.state.textValue.length!=36 ){
 			validationErrors.push("UUIDの長さが不正です。");
 			console.log("validation error pushed.");
 		}
 		if(validationErrors.length!==0){
-			this.refs.uuid.setState({validationErrors:validationErrors});
+			this.refs.loginUuid.setState({validationErrors:validationErrors});
 		}else{
-			this.refs.uuid.setState({validationErrors:[]});
+			this.refs.loginUuid.setState({validationErrors:[]});
 			var _this=this ;
 			gapi.client.account.login(
-				{'uuid':this.refs.uuid.state.textValue}
+				{'uuid':this.refs.loginUuid.state.textValue}
 			).execute(function(r){
 				// console.log("login after : ",r);
 				if(r.code!==undefined && r.code==400){
 					//datastore: no such entity
-					_this.refs.uuid.setState({validationErrors:["ユーザが見つかりません。(400)"]});
+					// console.log("ユーザないよー");
+					_this.refs.loginUuid.setState({validationErrors:["ユーザが見つかりません。(400)"]});
 				}else{
+					// console.log("ユーザないよー（400以外）")
 					if(r.result.success===true){
 						_this.props.setPage("main",{"playerData":r.result});
 					}else{
-						_this.refs.uuid.setState({validationErrors:["ユーザが見つかりません。"]});
+						// _this.refs.loginUuid.setState({validationErrors:["ユーザが見つかりません。"]});
 					}
 				}
 			});
-			// console.log("TODO",this.refs.uuid.state.textValue);
+			// console.log("TODO",this.refs.loginUuid.state.textValue);
 		}
 		// console.log("b");
 		return ;
@@ -137,7 +139,7 @@ var Login = React.createClass({
 			>
 			<TextInput
 			key="uuid"
-			ref="uuid"
+			ref="loginUuid"
 			value={Global.DEFAULT_TEST_PLAYER_UUID}
 			viewName="UUID"
 			description="登録時のUUIDを入力してください。"

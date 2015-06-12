@@ -54,6 +54,9 @@ gulp.task("server",function(){
 	});
 });
 
+
+//クリーンを実装したい……のだけど、なんかトラブったので保留中。。
+
 //順序保証できてないっぽい？bindってなんだ？streamを返したいんだけど……。
 // 参考 : <http://qiita.com/shinnn/items/bd7ad79526eff37cebd0>
 // gulp.task('clean',del.bind(null,['dist/debug/**/*','temp/**/*']));
@@ -65,8 +68,16 @@ gulp.task("server",function(){
 // });
 
 
+
+// ＿■■■＿■■■＿＿
+// ■＿＿＿＿＿＿＿■＿
+// ＿■■＿＿＿■■＿＿
+// ＿＿＿■＿＿＿＿■＿
+// ■■■＿＿■■■＿＿
+
 //S3デプロイ
-//※テストURLを本番に向けなおしたいな。。
+// - ビルドが必要です。
+// - じゃあ依存タスクかけばいいんですが、なんか順序保証がまだよくわかってないので、defaultタスク叩き直してからやってます。
 gulp.task('deploy',function(){
 	var IAM_cli_user = JSON.parse(fs.readFileSync('./secrets/aws/IAM-cli-user.json'));
 	var publisher = awspublish.create({
@@ -91,12 +102,22 @@ gulp.task('deploy',function(){
 });
 
 
+
+
+
+// ■＿＿■＿■■■＿■＿＿＿■＿■＿＿＿＿
+// ■＿＿■＿＿■＿＿■■＿■■＿■＿＿＿＿
+// ■■■■＿＿■＿＿■＿■＿■＿■＿＿＿＿
+// ■＿＿■＿＿■＿＿■＿＿＿■＿■＿＿＿＿
+// ■＿＿■＿＿■＿＿■＿＿＿■＿■■■■＿
+
 gulp.task('html',function(){
 	return gulp.src(["src/html/**/*.html"])
 		.pipe(plumber())
 		.pipe(minifyHTML({conditionals: true}))
 		.pipe(gulp.dest("./dist/debug"))
-		//本番は置き換え（ここでやるの正しいのかな……。。）
+
+		//本番はいくつか置き換え（ここでやるの正しいのかな……。。）
 		.pipe(replace(/styles.min.css/g,'styles.min.css.gz'))
 		.pipe(replace(/app.min.js/g,'app.min.js.gz'))
 		.pipe(gulp.dest("./dist/release"))
@@ -105,14 +126,16 @@ gulp.task('html',function(){
 });
 
 
+
+
+
 // ＿＿＿■＿＿■■■＿
 // ＿＿＿■＿■＿＿＿＿
 // ＿＿＿■＿＿■■＿＿
 // ■＿＿■＿＿＿＿■＿
 // ＿■■＿＿■■■＿＿
 
-
-//メモ : 通常のJavaScriptをJSXと同居させる方法は不明。
+//メモ : 通常のJavaScriptをJSXと同居させる方法はトラブったので調査保留。
 // React使わないなら、普通にbrowserifyだけ使うコードを検討したほうが早いかも。
 
 gulp.task('js', function(){
@@ -124,7 +147,8 @@ gulp.task('js', function(){
 		.pipe(source('app.min.js'))
 		.pipe(buffer())
 		.pipe(gulp.dest('./dist/debug'))
-		//本番は置き換え（ここでやるの正しいのかな……。。）
+		
+		//本番はいくつか置き換え（ここでやるの正しいのかな……。。）
 		.pipe(replace(/http:\/\/localhost:8080/g,'https://mytest-20150503-golang.appspot.com/'))
 		.pipe(replace(/DEFAULT_TEST_PLAYER_UUID:.*\n/g,'DEFAULT_TEST_PLAYER_UUID:"",'))
 
