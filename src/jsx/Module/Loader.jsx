@@ -8,12 +8,21 @@ var React = require('react');
 //	<https://github.com/ConnorAtherton/loaders.css>
 
 var Loader=React.createClass({
+	getInitialState(){
+		return {
+			enable:true,
+		};
+	},
 	render(){
-		return <div className="loader-inner ball-pulse">
-			<div></div>
-			<div></div>
-			<div></div>
-		</div>;
+		if(this.state.enable){
+			return <div className="loader-inner ball-pulse">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>;
+		}else{
+			return (<span></span>);
+		}
 	}
 });
 

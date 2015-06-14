@@ -3,6 +3,8 @@ var React = require('react');
 var PageBase = require('../Common/PageBase.jsx');
 var ChatList = require('../Module/ChatList.jsx');
 
+var SampleLand = require('../Module/Game/SampleLand.jsx');
+
 
 //メモ：ES6構文に挑戦しようと思ったのだけど、
 // http://qiita.com/ringo/items/3d8b693fec7395b913ef
@@ -11,13 +13,25 @@ var ChatList = require('../Module/ChatList.jsx');
 var Main = React.createClass({
 
 	propTypes:{
-		setPage: React.PropTypes.func.isRequired
+		setPage: React.PropTypes.func.isRequired,
 	},
 
 	getInitialState(){
 		return {
-			chatNowLoading:true
+			chatNowLoading:true,
+			secondsElapsed: 0,
 		};
+	},
+
+	tick: function() {
+		this.setState({secondsElapsed: this.state.secondsElapsed + 1});
+	},
+
+	componentDidMount: function() {
+		this.interval = setInterval(this.tick, 1000);
+	},
+	componentWillUnmount: function() {
+		clearInterval(this.interval);
 	},
 
 	handleLogout(e){
@@ -61,9 +75,14 @@ var Main = React.createClass({
 				<li>
 					最終ログイン日 : {playerData.lastLoginAt}
 				</li>
+				<li>
+					Seconds Elapsed: {this.state.secondsElapsed}
+				</li>
 			</ul>
 
-			<ChatList playerUUID={playerData.uuid}/>
+			<SampleLand UUID={playerData.uuid}/>
+
+			<ChatList playerUUID={playerData.uuid} playerName={playerData.name}/>
 
 		</div>);
 		// console.log("testreach 001");
