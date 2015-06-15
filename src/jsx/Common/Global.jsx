@@ -13,7 +13,7 @@ var Global={
 	DEFAULT_TEST_PLAYER_UUID:"6aa1d732-8231-b42e-0661-cfc745d24f5b",//テスト用。登録済みUUIDを初期表示に含めてしまう。本番ではgulpで空文字に置き換え。
 
 	API_CALL_WAIT:100,//通信ウェイト
-	CHAT_PAGING_COUNT:10,//チャットのページング数（※サーバ側リミットと合わせたい。。）
+	CHAT_PAGING_COUNT:3,//チャットのページング数（※サーバ側リミットと自動で合わせたい。どうしようかな？不要かな？とりあえずサーバは10。）
 
 	g(id){
 		return document.getElementById(id);

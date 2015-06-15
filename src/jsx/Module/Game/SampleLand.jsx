@@ -1,7 +1,8 @@
 /*jshint esnext:true */
 var Global=require('../../Common/Global.jsx');
 var React = require('react');
-var Loader= require('../Loader.jsx')
+var Loader= require('../Loader.jsx');
+var Statuses= require('./SampleLandStatus.jsx');
 
 var m=React.createClass({
 	propTypes:{
@@ -12,6 +13,7 @@ var m=React.createClass({
 		return {
 			initLoading:true,
 			updateLoading:true,
+			status:null,
 		};
 	},
 	componentDidMount(){
@@ -19,11 +21,10 @@ var m=React.createClass({
 		// console.log("this.props.playerUUID",this.props.playerUUID);
 		gapi.client.load('sampleland', 'v1', function() {
 			gapi.client.sampleland.ping().execute(function(resp) {
-				// console.log("chatroom ping finish.",resp);
 				_this.setState({'initLoading':false});
-				gapi.client.sampleland.player({UUID:this.props.UUID}).execute(function(resp) {
-					console.log("chatroom ping finish.",resp);
-					_this.setState({'updateLoading':false});
+				gapi.client.sampleland.player({uuid:_this.props.UUID}).execute(function(resp) {
+					console.log("sampleland player get finish.",resp);
+					_this.setState({'updateLoading':false,'status':resp});
 				});
 			});
 		}, Global.API_ROOT);
@@ -35,7 +36,10 @@ var m=React.createClass({
 		}else if(this.state.updateLoading){
 			body=<div>読み込み中...<Loader /></div>;
 		}else{
-			body=<p>このモジュールでは、某ランド風の「よくあるソシャゲ」の基本機能を提供します。TODOTODO</p>;
+			body=(<div>
+				<p>このモジュールでは、某リランド風の「よくあるソシャゲ」の基本機能を提供します。</p>
+				<Statuses status={this.state.status} />
+			</div>);
 		}
 		return (<div>
 			<h2>SampleLand</h2>
