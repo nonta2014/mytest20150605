@@ -11,7 +11,7 @@
 
 ## うごくの？
 
-手元では動いてますが、まだ機能はなにもありません。。
+- まだ機能はありませんが、[動作サンプルはこちら。](https://s3-ap-northeast-1.amazonaws.com/thirty-five-engineer-blogspot-files/game-client-mockup/index.html.gz)
 
 
 `EOF`
