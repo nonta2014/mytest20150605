@@ -12,6 +12,7 @@ var SampleLand = require('../Module/Game/SampleLand.jsx');
 //class Main extends React.Component {
 var Main = React.createClass({
 
+
 	propTypes:{
 		setPage: React.PropTypes.func.isRequired,
 	},

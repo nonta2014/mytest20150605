@@ -1,4 +1,5 @@
 /*jshint esnext:true */
+var Global = require('../Common/Global.jsx');
 var React = require('react');
 var InputBase = require('./InputBase.jsx');
 
@@ -16,13 +17,13 @@ var TextInput=React.createClass({
 		// console.log("textinput",this.state.validationErrors.length);
 		var body=<input
 		type="text"
-		name={this.props.key}
+		name={this.props.name}
 		value={this.state.textValue}
 		onChange={this.changeText}
 		className="form-control"
 		/>;
 		return <InputBase
-		key={this.props.key}
+		name={Global.uuid()}
 		viewName={this.props.viewName}
 		body={body}
 		description={this.props.description}

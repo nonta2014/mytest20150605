@@ -149,7 +149,7 @@ var ChatList = React.createClass({
 				onSubmit={this.handleNewPost}
 				>
 					<TextInput
-					key="message"
+					name="message"
 					ref="message"
 					value="12345"
 					viewName="メッセージ"
@@ -157,6 +157,7 @@ var ChatList = React.createClass({
 					<MyButton
 						onClick={this.handleReload}
 						value="リロード"
+						viewName="test"
 						enabled={true}
 					/>
 					<MyButton

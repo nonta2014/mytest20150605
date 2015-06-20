@@ -18,7 +18,7 @@ var InputBase=React.createClass({
 				)}</ul>;
 			}
 			return (<div className="form-group">
-				<label htmlFor="{this.props.key}" className="col-sm-5 control-label">
+				<label htmlFor="{this.props.name}" className="col-sm-5 control-label">
 				{this.props.viewName}
 				</label>
 				<div className="col-sm-7">

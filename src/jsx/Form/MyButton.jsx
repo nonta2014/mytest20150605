@@ -7,6 +7,9 @@ var MyButton=React.createClass({
 		onClick: React.PropTypes.func.isRequired,
 		// enabled: React.PropTypes.bool.isRequired,
 	},
+	getDefaultProps(){return{
+		enabled:true
+	};},
 	getInitialState(){
 		return {
 			textValue:this.props.value,
@@ -38,6 +41,14 @@ var MyButton=React.createClass({
 			{body}
 			</div>
 		</div>;
+		
+		// return <InputBase
+		// key={this.props.key}
+		// viewName={this.props.viewName}
+		// body={body}
+		// description={this.props.description}
+		// validationErrors={this.state.validationErrors}
+		// />;
 	}
 });
 

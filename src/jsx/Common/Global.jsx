@@ -10,7 +10,7 @@ var Global={
 	// API_ROOT:"https://mytest-20150503-golang.appspot.com/_ah/api", //本番に向ける
 	API_ROOT:"http://localhost:8080/_ah/api", //ローカルに向ける
 
-	DEFAULT_TEST_PLAYER_UUID:"6aa1d732-8231-b42e-0661-cfc745d24f5b",//テスト用。登録済みUUIDを初期表示に含めてしまう。本番ではgulpで空文字に置き換え。
+	DEFAULT_TEST_PLAYER_UUID:"9e71646c-033e-1dab-428b-0f1d3cb65e1a",//ローカルテスト用。登録済みUUIDを初期表示に含めてしまう。本番ではgulpで空文字に置き換え。
 
 	API_CALL_WAIT:100,//通信ウェイト
 	CHAT_PAGING_COUNT:3,//チャットのページング数（※サーバ側リミットと自動で合わせたい。どうしようかな？不要かな？とりあえずサーバは10。）

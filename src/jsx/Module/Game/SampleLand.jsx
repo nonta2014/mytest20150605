@@ -1,8 +1,9 @@
 /*jshint esnext:true */
-var Global=require('../../Common/Global.jsx');
 var React = require('react');
+var Global=require('../../Common/Global.jsx');
 var Loader= require('../Loader.jsx');
 var Statuses= require('./SampleLandStatus.jsx');
+var MyButton = require('../../Form/MyButton.jsx');
 
 var m=React.createClass({
 	propTypes:{
@@ -29,6 +30,21 @@ var m=React.createClass({
 			});
 		}, Global.API_ROOT);
 	},
+	nop(){
+	},
+
+	debug_StaminaDown(){
+		var _this=this ;
+		// _this.setState({'updateLoading':true});
+		gapi.client.sampleland.dev_decrementStamina({uuid:_this.props.UUID}).execute(function(resp) {
+			console.log("sampleland decrementStamina get finish.",resp);
+			_this.setState({'updateLoading':false,'status':resp});
+		});
+	},
+	debug_StaminaUp(){
+		var _this=this ;
+	},
+
 	render(){
 		var body;
 		if(this.state.initLoading){
@@ -37,8 +53,23 @@ var m=React.createClass({
 			body=<div>読み込み中...<Loader /></div>;
 		}else{
 			body=(<div>
-				<p>このモジュールでは、某リランド風の「よくあるソシャゲ」の基本機能を提供します。</p>
-				<Statuses status={this.state.status} />
+				<p>このモジュールでは、「以前よくあったカードバトル型ソシャゲ」的な機能を提供します。</p>
+				<Statuses
+					UUID={this.props.UUID}
+					status={this.state.status}
+				/>
+				<form className="form-horizontal">
+					<MyButton
+						onClick={this.debug_StaminaDown}
+						ref="debug_StaminaDown"
+						value="デバッグ：スタミナ減らす"
+					/>
+					<MyButton
+						onClick={this.debug_StaminaUp}
+						ref="debug_StaminaUp"
+						value="デバッグ：スタミナ増やす"
+					/>
+				</form>
 			</div>);
 		}
 		return (<div>
