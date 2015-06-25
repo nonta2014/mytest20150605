@@ -2,7 +2,7 @@
 var React = require('react');
 var Global=require('../../Common/Global.jsx');
 var Loader= require('../Loader.jsx');
-var Statuses= require('./SampleLandStatus.jsx');
+var SampleLandStatus= require('./SampleLandStatus.jsx');
 var MyButton = require('../../Form/MyButton.jsx');
 
 var m=React.createClass({
@@ -35,14 +35,30 @@ var m=React.createClass({
 
 	debug_StaminaDown(){
 		var _this=this ;
-		// _this.setState({'updateLoading':true});
+		_this.setState({'updateLoading':true});
 		gapi.client.sampleland.dev_decrementStamina({uuid:_this.props.UUID}).execute(function(resp) {
-			console.log("sampleland decrementStamina get finish.",resp);
+			console.log("sampleland dev_decrementStamina get finish.",resp);
 			_this.setState({'updateLoading':false,'status':resp});
+			_this.refs.statuses.setState({'status':resp});
 		});
 	},
 	debug_StaminaUp(){
 		var _this=this ;
+		_this.setState({'updateLoading':true});
+		gapi.client.sampleland.dev_incrementStamina({uuid:_this.props.UUID}).execute(function(resp) {
+			console.log("sampleland dev_incrementStamina get finish.",resp);
+			_this.setState({'updateLoading':false,'status':resp});
+			_this.refs.statuses.setState({'status':resp});
+		});
+	},
+	debug_StaminaReset(){
+		var _this=this ;
+		_this.setState({'updateLoading':true});
+		gapi.client.sampleland.dev_resetStamina({uuid:_this.props.UUID}).execute(function(resp) {
+			console.log("sampleland dev_resetStamina get finish.",resp);
+			_this.setState({'updateLoading':false,'status':resp});
+			_this.refs.statuses.setState({'status':resp});
+		});
 	},
 
 	render(){
@@ -54,8 +70,9 @@ var m=React.createClass({
 		}else{
 			body=(<div>
 				<p>このモジュールでは、「以前よくあったカードバトル型ソシャゲ」的な機能を提供します。</p>
-				<Statuses
+				<SampleLandStatus
 					UUID={this.props.UUID}
+					ref="statuses"
 					status={this.state.status}
 				/>
 				<form className="form-horizontal">
@@ -68,6 +85,11 @@ var m=React.createClass({
 						onClick={this.debug_StaminaUp}
 						ref="debug_StaminaUp"
 						value="デバッグ：スタミナ増やす"
+					/>
+					<MyButton
+						onClick={this.debug_StaminaReset}
+						ref="debug_StaminaUp"
+						value="デバッグ：スタミナ全回復"
 					/>
 				</form>
 			</div>);
