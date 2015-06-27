@@ -186,6 +186,40 @@ gulp.task('css',function(){
 });
 
 
+// ＿■■■＿■■■＿＿■■■＿＿■＿■■■＿■■■■＿
+// ■＿＿＿＿■＿＿■＿■＿＿■＿■＿＿■＿＿■＿＿＿＿
+// ＿■■＿＿■■■＿＿■■■＿＿■＿＿■＿＿■■■■＿
+// ＿＿＿■＿■＿＿＿＿■＿■＿＿■＿＿■＿＿■＿＿＿＿
+// ■■■＿＿■＿＿＿＿■＿＿■＿■＿＿■＿＿■■■■＿
+
+//CSSスプライト作成
+//参考 : <http://whiskers.nukos.kitchen/2014/12/24/gulp-spritesmith.html>
+//インストール : npm install --save-dev spritesmith gulp.spritesmith
+
+//他の参考 :
+// - retina対応とか？ : <http://blog.e-riverstyle.com/2014/02/gulpspritesmithcss-spritegulp.html>
+// - 読んでない :<http://ichimaruni-design.com/2015/02/csssprite-gulp/>
+
+var spritesmith = require('gulp.spritesmith');
+
+gulp.task('sprite', function(){
+
+	var spriteData = gulp.src('src/images/**/*.png')
+		.pipe(spritesmith({
+			imgName : 'img/sprite.png',
+			cssName : 'sprite.css'
+			//cssFormat: 'scss', //フォーマット指定もできる。デフォルトはcss
+		}))
+	;
+
+	spriteData.css
+		.pipe(gulp.dest('src/css'));
+
+	spriteData.img
+		.pipe(gulp.dest('./dist/debug'))
+		.pipe(gulp.dest('./dist/release'))
+	;
+});
 
 
 
