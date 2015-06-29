@@ -152,7 +152,6 @@ var SampleLand=React.createClass({
 		</div>;
 
 		var defaultCommand=<div>
-			<h3>コマンド</h3>
 			<form className="form-horizontal">
 				<MyButton
 					onClick={this.explore}
@@ -172,29 +171,27 @@ var SampleLand=React.createClass({
 
 				case "ExploreResultStaminaShort" :
 				case "ExploreResultCoinGet" :
+				case "ExploreResultBattle_Local_Win" :
 					command=defaultCommand;
 					break ;
 
 				case "ExploreResultBattle" :
 					_this=this;
 					command=<div>
-						<MyButton
-							onClick={function(){
-								var s=_this.state.exploreResult;
-								s.ResultType="ExploreResultBattle_Local_Win";
-								_this.setState({"exploreResult":s});
-							}}
-							ref="explore"
-							value="たたかう"
-						/>
-						{debugButtons}
+						<form className="form-horizontal">
+							<MyButton
+								onClick={function(){
+									var s=_this.state.exploreResult;
+									s.ResultType="ExploreResultBattle_Local_Win";
+									_this.setState({"exploreResult":s});
+								}}
+								ref="explore"
+								value="たたかう"
+							/>
+							{debugButtons}
+						</form>
 					</div>;
 					break ;
-
-				case "ExploreResultBattle_Local_Win" :
-					command=defaultCommand;
-					break ;
-
 
 				default : command=<div>
 					エラー : 想定外のResultTypeです。{this.state.exploreResult.ResultType}
@@ -225,6 +222,7 @@ var SampleLand=React.createClass({
 					/>
 				</td></tr></table>
 
+				<h3>コマンド</h3>
 				{command}
 
 			</div>);
